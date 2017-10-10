@@ -1,0 +1,67 @@
+@model IEnumerable<QHat.Models.Hat>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find by name: <input type="text" name="SearchString" value="@ViewData["currentFilter"]" />
+            <input type="submit" value="Search" class="btn btn-default" /> |
+            <a asp-action="Index">Back to List</a>
+        </p>
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Image)
+        </th>
+        <th>
+            <a asp-action="Index" asp-route-sortOrder="@ViewBag.NameSortParm">
+                @Html.DisplayNameFor(model
+=> model.HatName)
+            </a>
+        </th>
+        <th>
+            <a asp-action="Index" asp-route-sortOrder="@ViewBag.DateSortParm">
+                @Html.DisplayNameFor(model
+=> model.Price)
+        </a>
+    </th>
+    <th></th>
+</tr>
+</thead>
+
+    <tbody>
+@foreach (var item in Model)
+{
+    var imgUrl = @Href("~/" + item.Image);
+    var errImg = @Href("~/images/default.jpg");
+    <tr>
+        <td>
+            <img style="width: 250px; height: auto;" src="@imgUrl" alt="Student Image" onerror="this.onerror = null; this.src = '@errImg'">
+        </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HatName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.HatID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.HatID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.HatID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
